@@ -4,23 +4,23 @@ NULL
 
 #' Run optimizeALS on a Seurat object
 #'
-#' @inheritParams liger::optimizeALS
+#' @inheritParams rliger::optimizeALS
 #' @inheritParams RunFastMNN
 #' @param object A merged Seurat object
 #' @param split.by Attribute for splitting, defaults to "orig.ident"
 #' @param ... Arguments passed to other methods
 #'
-#' @return A Seurat object with embeddings and loadings from \code{\link[liger]{optimizeALS}}
+#' @return A Seurat object with embeddings and loadings from \code{\link[rliger]{optimizeALS}}
 #' stored as a DimReduc object with name \code{reduction.name} (key set to \code{reduction.key});
 #' per-dataset feature loadings matrices stored in the \code{tool} slot, accessible with
 #' \code{\link[Seurat]{Tool}}
 #'
-# @importFrom liger optimizeALS
+# @importFrom rliger optimizeALS
 #' @importFrom Seurat DefaultAssay SplitObject GetAssayData VariableFeatures
 #' CreateDimReducObject Tool<- LogSeuratCommand
 #'
 #' @aliases optimizeALS
-#' @seealso \code{\link[liger]{optimizeALS}} \code{\link[Seurat]{Tool}}
+#' @seealso \code{\link[rliger]{optimizeALS}} \code{\link[Seurat]{Tool}}
 #'
 #' @export
 # @method optimizeALS Seurat
@@ -43,7 +43,7 @@ RunOptimizeALS <- function(
   print.obj = FALSE,
   ...
 ) {
-  CheckPackage(package = 'MacoskoLab/liger', repository = 'github')
+  CheckPackage(package = 'MacoskoLab/rliger', repository = 'github')
   assay <- assay %||% DefaultAssay(object = object)
   if (IsMatrixEmpty(x = GetAssayData(object = object, slot = 'scale.data'))) {
     stop("Data is unscaled, splease scale before running", call. = FALSE)
@@ -63,7 +63,7 @@ RunOptimizeALS <- function(
     }
   )
   # scale.data <- sapply(X = scale.data, FUN = t, simplify = FALSE)
-  out <- liger::optimizeALS(
+  out <- rliger::optimizeALS(
     object = scale.data,
     k = k,
     lambda = lambda,
@@ -100,7 +100,7 @@ RunOptimizeALS <- function(
 #'
 #' This is a deprecated function. Call 'RunQuantileNorm' instead.
 #'
-# @inheritParams liger::SNF
+# @inheritParams rliger::SNF
 #' @inheritParams RunOptimizeALS
 #' @param reduction Name of reduction to use
 #'
@@ -110,7 +110,7 @@ RunOptimizeALS <- function(
 #' @importFrom Seurat SplitObject Embeddings Tool<- LogSeuratCommand
 #'
 #' @aliases SNF
-#' @seealso \code{\link[liger]{RunQuantileNorm}} \code{\link[Seurat]{Tool}}
+#' @seealso \code{\link[rliger]{RunQuantileNorm}} \code{\link[Seurat]{Tool}}
 #'
 #' @export
 # @method SNF Seurat
@@ -127,7 +127,7 @@ RunSNF <- function(
   small.clust.thresh = knn_k,
   ...
 ) {
-  CheckPackage(package = 'MacoskoLab/liger', repository = 'github')
+  CheckPackage(package = 'MacoskoLab/rliger', repository = 'github')
   # cells <- sapply(
   #   X = SplitObject(object = object, split.by = split.by),
   #   FUN = colnames,
@@ -142,7 +142,7 @@ RunSNF <- function(
   #   simplify = FALSE,
   #   USE.NAMES = TRUE
   # )
-  # snf <- liger::SNF(
+  # snf <- rliger::SNF(
   #   object = embeddings,
   #   dims.use = dims.use,
   #   dist.use = dist.use,
@@ -169,21 +169,21 @@ RunSNF <- function(
 #' 
 #' @inheritParams RunSNF
 #' @inheritParams RunOptimizeALS
-#' @inheritParams liger::quantileAlignSNF
+#' @inheritParams rliger::quantileAlignSNF
 #' @param recalc.snf Recalculate \code{\link{SNF}}
 #' @param ... Arguments passed to other methods, and to
 #' \code{\link[seurat.wrappers]{SNF}} if \code{recalc.snf = TRUE} or
 #' \code{\link[seurat.wrappers]{SNF}} hasn't been run
 #'
-#' @return A Seurat object with embeddings from \code{\link[liger]{quantileAlignSNF}}
+#' @return A Seurat object with embeddings from \code{\link[rliger]{quantileAlignSNF}}
 #' stored as a DimReduc object with name \code{reduction.name} (key set to \code{reduction.key})
 #'
-# @importFrom liger quantileAlignSNF
+# @importFrom rliger quantileAlignSNF
 #' @importFrom Seurat Tool SplitObject Embeddings CreateDimReducObject
 #' DefaultAssay Tool<- Idents<- LogSeuratCommand
 #'
 #' @aliases quantileAlignSNF
-#' @seealso \code{\link[liger]{RunQuantileNorm}}
+#' @seealso \code{\link[rliger]{RunQuantileNorm}}
 #'
 #' @export
 # @method quantileAlignSNF Seurat
@@ -207,7 +207,7 @@ RunQuantileAlignSNF <- function(
   print.align.summary = FALSE,
   ...
 ) {
-  # CheckPackage(package = 'MacoskoLab/liger', repository = 'github')
+  # CheckPackage(package = 'MacoskoLab/rliger', repository = 'github')
   # if (recalc.snf || is.null(x = Tool(object = object, slot = 'RunSNF'))) {
   #   object <- RunSNF(
   #     object = object,
@@ -238,7 +238,7 @@ RunQuantileAlignSNF <- function(
   # if (is.character(x = ref_dataset) && !ref_dataset %in% names(x = embeddings)) {
   #   stop("Cannot find reference dataset '", ref_dataset, "' in the split", call. = FALSE)
   # }
-  # out <- liger::quantileAlignSNF(
+  # out <- rliger::quantileAlignSNF(
   #   object = embeddings,
   #   snf = Tool(object = object, slot = 'RunSNF'),
   #   cell.names = colnames(x = object),
@@ -300,18 +300,18 @@ RunQuantileAlignSNF <- function(
 #' Run quantile_norm on a Seurat object
 #'
 #' @inheritParams RunOptimizeALS
-#' @inheritParams liger::quantile_norm
+#' @inheritParams rliger::quantile_norm
 #' @param ... Arguments passed to other methods
 #'
-#' @return A Seurat object with embeddings from \code{\link[liger]{quantile_norm}}
+#' @return A Seurat object with embeddings from \code{\link[rliger]{quantile_norm}}
 #' stored as a DimReduc object with name \code{reduction.name} (key set to \code{reduction.key})
 #'
-# @importFrom liger quantile_norm
+# @importFrom rliger quantile_norm
 #' @importFrom Seurat Tool SplitObject Embeddings CreateDimReducObject
 #' DefaultAssay Tool<- Idents<- LogSeuratCommand
 #'
 #' @aliases quantile_norm
-#' @seealso \code{\link[liger]{quantile_norm}}
+#' @seealso \code{\link[rliger]{quantile_norm}}
 #'
 #' @export
 # @method quantile_norm Seurat
@@ -333,7 +333,7 @@ RunQuantileNorm <- function(
   refine.knn = TRUE,
   ...
 ) {
-  CheckPackage(package = 'MacoskoLab/liger', repository = 'github')
+  CheckPackage(package = 'MacoskoLab/rliger', repository = 'github')
   embeddings <- sapply(
     X = SplitObject(object = object, split.by = split.by),
     FUN = function(x) {
@@ -355,7 +355,7 @@ RunQuantileNorm <- function(
   if (is.character(x = ref_dataset) && !ref_dataset %in% names(x = embeddings)) {
     stop("Cannot find reference dataset '", ref_dataset, "' in the split", call. = FALSE)
   }
-  out <- liger::quantile_norm(
+  out <- rliger::quantile_norm(
     object = embeddings,
     quantiles = quantiles,
     ref_dataset = ref_dataset,
