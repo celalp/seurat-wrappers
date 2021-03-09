@@ -43,7 +43,7 @@ RunOptimizeALS <- function(
   print.obj = FALSE,
   ...
 ) {
-  CheckPackage(package = 'MacoskoLab/rliger', repository = 'github')
+  #CheckPackage(package = 'MacoskoLab/rliger', repository = 'github')
   assay <- assay %||% DefaultAssay(object = object)
   if (IsMatrixEmpty(x = GetAssayData(object = object, slot = 'scale.data'))) {
     stop("Data is unscaled, splease scale before running", call. = FALSE)
@@ -127,7 +127,7 @@ RunSNF <- function(
   small.clust.thresh = knn_k,
   ...
 ) {
-  CheckPackage(package = 'MacoskoLab/rliger', repository = 'github')
+  #CheckPackage(package = 'MacoskoLab/rliger', repository = 'github')
   # cells <- sapply(
   #   X = SplitObject(object = object, split.by = split.by),
   #   FUN = colnames,
@@ -333,7 +333,7 @@ RunQuantileNorm <- function(
   refine.knn = TRUE,
   ...
 ) {
-  CheckPackage(package = 'MacoskoLab/rliger', repository = 'github')
+  #CheckPackage(package = 'MacoskoLab/rliger', repository = 'github')
   embeddings <- sapply(
     X = SplitObject(object = object, split.by = split.by),
     FUN = function(x) {
